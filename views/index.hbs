@@ -1,0 +1,32 @@
+
+<div class="background">
+
+<h1>JAHU Rental property Management Platform</h1>
+<br>
+<h2>Welcome to the platform! Please enter your username and password to log in!</h2>
+<br>
+{{!-- <img class="logo" src="../images/logo/logo.jpg" alt="" width="140px"> --}}
+
+
+<form action="/auth/login" method="POST" id="form-container">
+  <label for="username">Username</label>
+  <input id="username" type="text" name="username" placeholder="Your Username">
+
+  <br><br>
+
+  <label for="password">Password</label>
+  <input id="password" type="password" name="password" placeholder="Your Password">
+  <br>
+  {{#if message }}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <br><br>
+
+  <button>Login</button>
+
+</form>
+
+
+
+</div>
+

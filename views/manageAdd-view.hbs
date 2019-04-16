@@ -1,0 +1,46 @@
+<h2>Manage your property add:</h2>
+
+
+<form action="/jahu" method="post">
+<h4>Add a SHORT text that goes to the front add page:</h4>
+    <textarea name="body" cols="100" rows="5"></textarea>
+
+
+
+
+
+
+
+    <button type="submit">send</button>
+    {{!-- ÜHEKS VORMIKS!!! --}}
+</form>
+
+<h4>Add a LONG text that goes to the More Info page:</h4>
+<form action="/message/add" method="post">
+    <textarea name="body" cols="100" rows="10"></textarea>
+    <button type="submit">send</button>
+</form>
+
+
+<h4>Sisesta siia sinu property lat ja lng väärtused (kui soovid kuvda askohta Google Mapsis)</h4>
+<p id="lat">lat:</p>
+<p id="lng">lng:</p>
+
+<h4>Add pictures to the fron add page (3tk)</h4>
+<h4>Add pictures to the additional add page (max 12 ntx)</h4>
+
+<br><br>
+click yes for<h4>Media Links</h4>
+
+<p>Sisesta esimene link:</p>
+
+<form action="/message/add" method="post">
+    title: <input type="text" name="title">
+    <button type="submit">send</button>
+</form>
+<p>Sisesta teine link: </p>
+
+<form action="/message/add" method="post">
+    title: <input type="text" name="title">
+    <button type="submit">send</button>
+</form>

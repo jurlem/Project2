@@ -1,0 +1,41 @@
+
+{{!-- ADD NEW MESSAGE --}}
+<h1>add new message</h1>
+<form action="/message/add" method="post">
+    title: <input type="text" name="title">
+    body: <textarea name="body" cols="30" rows="10"></textarea>
+    <select name="topic">
+        {{#each topics}}
+        <option value="{{id}}">{{title}}</option>
+        {{/each}}
+    </select>
+    <button type="submit">send</button>
+</form>
+
+
+{{!-- EDIT MESSAGES --}}
+<h1>edit message</h1>
+<form action="/message/edit?id={{_id}}" method="post">
+    title: <input type="text" name="title" value="{{title}}">
+    body: <textarea name="body" cols="30" rows="10">{{body}}</textarea>
+    <button type="submit">send</button>
+</form>
+
+{{!-- SINGLE MESSAGE --}}
+<h1>{{title}}</h1>
+<p>{{body}}</p>
+
+{{!-- ALL MESSAGES --}}
+<h1>all messages</h1>
+<div>
+    <ul>
+        <li><a href="/message/add">add new message</a></li>
+    </ul>
+</div>
+
+{{#each allmsg}}
+<h2>{{title}}</h2>
+<p>{{body}}</p>
+<i>{{topic.title}}</i>
+<a href="/message/edit?id={{_id}}">edit</a>
+{{/each}}
