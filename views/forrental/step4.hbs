@@ -1,0 +1,24 @@
+<h1>Hello im step 4</h1>
+
+
+<form action="/forrental/step4?id={{id}}" method="post">
+
+<h2>Please enter media links here:</h2>
+<br>
+
+  <label for="link1">Link1: </label>
+  <input type="text" name="link1" id="link1">
+<br>
+<br>
+  <label for="link2">Link2: </label>
+  <input type="text" name="link2" id="link2">
+
+  {{#if message }}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <br>
+
+<br>
+  <button type="submit">Send and continue</button>
+
+</form> 

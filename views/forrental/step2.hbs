@@ -1,2 +1,19 @@
-<h1>Hello im step 2
-</h1>
+<h1>Hello im step 2</h1>
+
+
+File upload part
+
+<form action="/forrental/step2?id={{id}}" method="post">
+<h2>Please upload Few photos: </h2>
+  <label for="image1">Photo (kirjeldus): </label>
+  <input type="text" name="image1" id="image1">
+
+
+
+  {{#if message }}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+<br>
+<br>
+
+  <button type="submit">Send and continue</button>

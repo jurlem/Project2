@@ -92,8 +92,8 @@ app.use('/manage', adminRoutes);
 const renterRoutes = require('./routes/renter');
 app.use('/renter', renterRoutes);
 
-const rentingRoutes = require('./routes/jahu');
-app.use('/jahu', rentingRoutes);
+// const rentingRoutes = require('./routes/jahu');
+// app.use('/jahu', rentingRoutes);
 
 const forRent = require('./routes/forrental');
 app.use('/forrental', forRent);

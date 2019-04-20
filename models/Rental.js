@@ -18,7 +18,7 @@ const rentalSchema = new Schema({
   image11: String,
   image12: String,
   image13: String,
-  coordinates: String,
+  address: {type: ["integer", "string"]},
   link1:    String,
   link2:    String
 }, 

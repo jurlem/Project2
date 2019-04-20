@@ -1,2 +1,25 @@
 <h1>Hello im step 1</h1>
 
+
+
+<form action="/forrental/step1" method="post">
+<h2>Please enter a Headline for the rental advertisment: </h2>
+  <label for="headline">Headline: </label>
+  <input type="text" name="headline" id="headline">
+
+<h2>Please enter a short text for the rental advertisment: </h2>
+  <label for="occupation">Short Text: </label>
+  <input type="text" name="shortText" id="shortText">
+
+<h2>Please enter a longer text with more details: </h2>
+  <label for="catchPhrase">Long Text: </label>
+  <input type="text" name="longText" id="longText">
+
+  {{#if message }}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+<br>
+  <button type="submit">Send and continue</button>
+
+</form> 
+

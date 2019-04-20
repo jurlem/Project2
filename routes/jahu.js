@@ -1,6 +1,8 @@
 // const express = require('express');
 // const passport = require('passport');
 // const router  = express.Router();
+//const multer  = require('multer');
+
 // const ensureLogin = require("connect-ensure-login");
 
 // const User = require("../models/User");
@@ -25,8 +27,6 @@
 // router.get('/morePics', (req, res, next) => {
 //   res.render('more-pics');
 // })
-
-
 
 // module.exports = router;
 
