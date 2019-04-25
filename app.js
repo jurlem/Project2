@@ -13,8 +13,10 @@ const session    = require("express-session");
 const MongoStore = require('connect-mongo')(session);
 const flash      = require("connect-flash");
 const bcrypt     = require('bcrypt');
-    
 
+const checkRoles = require('./models/checkRoles');
+
+    
 mongoose
   .connect('mongodb://localhost/project2', {useNewUrlParser: true})
   .then(x => {
@@ -87,11 +89,12 @@ const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
 
 const adminRoutes = require('./routes/manage');
-app.use('/manage', adminRoutes);
+app.use('/manage', checkRoles('ADMIN'), adminRoutes);
 
 const renterRoutes = require('./routes/renter');
-app.use('/renter', renterRoutes);
+app.use('/renter', checkRoles('RENTER'), checkRoles('ADMIN'), renterRoutes);
 
+//commented out as is not used at the moment:
 // const rentingRoutes = require('./routes/jahu');
 // app.use('/jahu', rentingRoutes);
 

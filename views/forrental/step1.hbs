@@ -4,16 +4,13 @@
 
 <form action="/forrental/step1" method="post">
 <h2>Please enter a Headline for the rental advertisment: </h2>
-  <label for="headline">Headline: </label>
-  <input type="text" name="headline" id="headline">
+  <textarea type="text" cols="100" rows="2" name="headline" id="headline"></textarea>
 
 <h2>Please enter a short text for the rental advertisment: </h2>
-  <label for="occupation">Short Text: </label>
-  <input type="text" name="shortText" id="shortText">
+  <textarea type="text" cols="100" rows="10" name="shortText" id="shortText"></textarea>
 
 <h2>Please enter a longer text with more details: </h2>
-  <label for="catchPhrase">Long Text: </label>
-  <input type="text" name="longText" id="longText">
+  <textarea type="text" cols="100" rows="30" name="longText" id="longText"></textarea>
 
   {{#if message }}
     <div class="error-message">{{ message }}</div>
@@ -22,4 +19,3 @@
   <button type="submit">Send and continue</button>
 
 </form> 
-

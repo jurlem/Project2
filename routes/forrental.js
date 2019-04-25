@@ -72,18 +72,99 @@ router.post('/step4', (req, res, next) => {
   Rental.findOneAndUpdate({_id: req.query.id}, req.body)
     .then( links =>{
       console.log(links)
-      res.redirect('/forrental/add?id=' + insertedInfo._id)
+      res.redirect('/forrental/add?id=' + links._id)
     })
     .catch(err => {
       console.log(err)
+      
       res.render('forrental/step4', { message: err})  
     })
  });
 
 
- // test the end
+ // and all together THE ADD:
  router.get('/add', (req, res, next) => {
-  res.render('forrental/add');
+   Rental.find({})
+   .then(theRentalAdd => {
+     console.log( 'This is the RentalAdd in the DB: ', theRentalAdd )
+     res.render('forrental/add', { add: theRentalAdd });
+   })
+   .catch(err => {
+     console.log(err)
+   });
 });
 
+//longText page
+router.get('/moretext', (req, res, next) => {
+  Rental.find({})
+  .then(theRentalAdd => {
+    res.render('forrental/moretext', { add: theRentalAdd })
+  })
+  .catch(err => {
+    console.log(err)
+  })
+})
+
+//
+//EDIT existing add:
+router.get('/all', (req, res, next) => {
+  Rental.find( { } )
+    .then(all => {
+      res.render('forrental/all', {all})
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
+
+router.get('/edit', (req, res) => {
+  Rental.findOne( {_id: req.query.id}, req.body )
+    .then(getOne => {
+      res.render('forrental/edit', getOne)
+    })
+    .catch(err =>
+      console.log(err))
+})
+
+
+
+router.post('/edit', (req, res) => {
+  Rental.update( {_id: req.query.id}, req.body )
+    .then(add => {
+      res.redirect('/forrental/add')
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
+
+
+//DELETE ADD
+router.get('/delete', (req, res) => {
+  Rental.findByIdAndDelete( {_id:req.query.id} )
+  .then(deletedMessage => {
+    console.log('Im deleting this message: ', deletedMessage)
+    res.redirect('/forrental/all')
+  })
+  .catch(err => {
+    console.log(err)
+  })
+})
+
+//view full add {{id}}
+router.get('/view', (req, res) => {
+  
+  Rental.findOne( {_id:req.query.id} )
+   .then(foundAdd => {
+     console.log('this is a add: ', foundAdd)
+     res.render('forrental/viewfull', {foundAdd})
+   })
+   .catch(err => {
+     console.log(err)
+   })
+})
+
+
+
 module.exports = router;
+

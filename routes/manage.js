@@ -1,75 +1,146 @@
 const express = require('express');
 const passport = require('passport');
 const router  = express.Router();
-const multer  = require('multer');
-
+const Multer  = require('multer');
 const ensureLogin = require("connect-ensure-login");
-
 const User = require("../models/User");
 const Docu = require('../models/docu');
+const Invoice = require('../models/Invoice');
 
+const checkRoles = require('../models/checkRoles');
+//s3
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
+const s3 = new aws.S3();
 
+const storage = new multerS3({
+  s3: s3,
+  bucket: 'jurlem-project2',
+
+  contentDisposition: 'inline',
+  contentType: multerS3.AUTO_CONTENT_TYPE,
+
+  key: function(req, file, cb) {
+    cb(null, Date.now() + '_' + file.originalname)
+  }
+})
+// end s3
 
 //PRIVATE Pages:
-router.get('/', checkRoles('ADMIN'), (req, res) => {
+router.get('/', (req, res) => {
   res.render('admin-view', { user: req.user });
-})
-
-// !! kui panen siia  *, siis ei näe admin enam oma edasisi lehti. ja ka ei pääse Renter sinna
-// kui tärni ei pane, siis  Ei näe / kuid edasisi lehti näevad kõik
-
-function checkRoles(role) {
-  return function(req, res, next) {
-    if (req.isAuthenticated() && req.user.role === role) {
-      return next();
-    } else {
-      res.redirect('/auth/login')
-    }
-  }
-}
+}) 
 
 // //ADMIN tabs:
-router.get('/documents', checkRoles('ADMIN'), (req, res, next) => {
-  res.render('fileuploads/documents-view');
-  // Docu.find()
-  //   .then(documents =>{
-  //     res.render('fileuploads/documents-view', { user: req.user }, { documents: documents });
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //   })  
-})
-router.get('/arved', checkRoles('ADMIN'), (req, res, next) => {
-  res.render('fileuploads/arved-view', { user: req.user });
-})
-router.get('/createuser', checkRoles('ADMIN'), (req, res, next) => {
-  res.redirect('auth/signup', { user: req.user });
-})
-router.get('/manageAdd', checkRoles('ADMIN'), (req, res, next) => {
-  res.render('manageAdd-view', { user: req.user });
+router.get('/documents', (req, res, next) => {  
+  Docu.find({})
+    .then(documents =>{
+       console.log('documents: ', documents)
+      res.render('fileuploads/documents-view', { documents: documents });
+    })
+    .catch(err => {
+      console.log(err)
+    })  
 })
 
 // MULTER
-// Multer GET - kas on vaja uut või saab kasutada seda checkRoles osa?
-
 // Route to upload from project base path
-const upload = multer({ dest: './public/uploads/' })
+const upload = Multer({ storage: storage })
 
+
+// upload file to DB, then render page with documents
 router.post('/documents', upload.single('docu'), (req, res) => {
-console.log(req.file)
-Docu.create({
+// console.log(req.file)
+ Docu.create({
   name: req.body.name ,
-  path: `/uploads/${req.file.filename}`,
-  originalName: req.file.originalname
+  path: req.file.location,
+  originalName: req.file.originalname,
+  type: "document"
 })
-  .then(document =>{
-    res.send(document)
-    
+  .then(documents => {
+    res.redirect('/manage/documents')
   })
   .catch(err =>{
     console.log(err)
   })
 })
 
+
+//choosing one file:
+router.get('/documents/:docId', (req, res, next)  => {
+
+  Docu.findOne( { _id: req.params.docId } )
+    .then( fetchedDoc => {
+      console.log ('The fetched document: ', fetchedDoc )
+      res.render('fileuploads/more', {fetchedDoc})
+    })
+})
+
+//DELETE ADD
+router.get('/delete', (req, res) => {
+  console.log(req.query)
+  Docu.findByIdAndDelete( {_id:req.query.id} )
+  .then(deletedDocu => {
+    console.log('Im deleting this document: ', deletedDocu)
+    res.redirect('/manage/documents')
+  })
+  .catch(err => {
+    console.log(err)
+  })
+})
+
+
+//INVOICES VIEW,  CREATE new INVOICE
+router.get('/arved', (req, res, next) => {
+  Docu.find({})
+    .then(invoices => {
+      console.log('list of invoices: ', {invoices:invoices})
+      res.render('fileuploads/arved-view'), {invoices: invoices};
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
+
+router.post('/arved', upload.single('docu'), (req, res) => {
+  // console.log(req.file)
+  Docu.create({
+    name: req.body.name , 
+    path: req.file.location ,
+    originalName: req.file.originalname,
+    type: "invoice"
+  })
+  .then(invoice => {
+    res.redirect('/manage/arved')
+  })
+  .catch(err => {
+    console.log(err)
+  })
+})
+
+
+// router.post('/documents', upload.single('docu'), (req, res) => {
+//   // console.log(req.file)
+//    Docu.create({
+//     name: req.body.name ,
+//     path: req.file.location,
+//     originalName: req.file.originalname
+//   })
+//     .then(documents => {
+//       res.redirect('/manage/documents')
+//     })
+//     .catch(err =>{
+//       console.log(err)
+//     })
+//   })
+
+
+
+router.get('/createuser', (req, res, next) => {
+  res.redirect('auth/signup', { user: req.user });
+})
+router.get('/manageAdd', (req, res, next) => {
+  res.render('manageAdd-view', { user: req.user });
+})
 
 module.exports = router;

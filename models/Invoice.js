@@ -1,12 +1,11 @@
-
 const mongoose = require("mongoose");
 const Schema   = mongoose.Schema;
 
-const docuSchema = new Schema({
+const invoiceSchema = new Schema({
   name: String,
   path: String,
-  originalName: String,
-  type: String
+  originalName: String
+
 }, {
   timestamps: { 
     createdAt: "created_at", 
@@ -14,5 +13,5 @@ const docuSchema = new Schema({
   }
 });
 
-const Docu = mongoose.model("Docu", docuSchema);
-module.exports = Docu;
+const Invoice = mongoose.model("Invoice", invoiceSchema);
+module.exports = Invoice;

@@ -1,0 +1,48 @@
+<h1>Edit your add:</h1>
+
+<form action="/forrental/edit?id={{_id}}" method="post">
+
+
+<h2>Please enter a Headline for the rental advertisment: </h2>
+  <textarea type="text" cols="100" rows="2" name="headline"  id="headline">{{headline}}</textarea>
+
+<h2>Please enter a short text for the rental advertisment: </h2>
+  <textarea type="text" cols="100" rows="10" name="shortText"  id="shortText">{{shortText}}</textarea>
+
+<h2>Please enter a longer text with more details: </h2>
+  <textarea type="text" cols="100" rows="30" name="longText"  id="longText">{{longText}}</textarea>
+
+ 
+<br>
+<h2>Please upload Few photos: </h2>
+  <label for="image1">Photo (kirjeldus): </label>
+  <input type="text" name="image1" id="image1" value="{{image1}}">
+
+  <h2>Please enter exact address of the property: </h2>
+  <label for="address">Address: </label>
+  <input type="text" name="address" value="{{address}}" id="address">
+
+  <h2>Please enter media links here:</h2>
+<br>
+
+  <label for="link1">Link1: </label>
+  <input type="text" name="link1" value="{{link1}}" id="link1">
+<br>
+<br>
+  <label for="link2">Link2: </label>
+  <input type="text" name="link2" value="{{link2}}" id="link2">
+
+
+
+
+
+
+
+
+
+<br>
+<br>
+
+  <button type="submit">Send and update</button>
+
+</form> 

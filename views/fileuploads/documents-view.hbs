@@ -7,13 +7,17 @@ Uploaded files:
 * Renter docs<br>
 
 <br>
+<br>
+<br>
 
-<br>
-<br>
+{{#each documents}}
+<a href="/manage/documents/{{_id}}" target= "_blank">{{name}}</a> <br>
+{{/each }}
 
 <section>
   <h3>Upload new documents here: </h3>
-  <form action="/fileuploads/documents-view" method="post" enctype="multipart/form-data">
+  {{!-- This is a front end in the client browser i.e the path in browser --}}
+  <form action="/manage/documents" method="post" enctype="multipart/form-data">
     <input type="text" name="name">
     <input type="file" name="docu">
     <input type="submit" value="Upload document">

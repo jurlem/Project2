@@ -1,10 +1,9 @@
 <p>GOOD JOB!! This is the final page where everything comes together</p>
 
-{{#each add}}
-<h1>{{headline}}</h1>
+<h1>{{foundAdd.headline}}</h1>
 <br>
 
-<p>{{shortText}}</p>
+<p>{{foundAdd.shortText}}</p>
 <a href="/forrental/moretext">Read more</a>
 <br><br><br>
 
@@ -12,26 +11,25 @@
 
 <h2>Images:</h2>
 
-<p>{{image1}}</p>
-<p>{{image2}}</p>
-<p>{{image3}}</p>
+<p>{{foundAdd.image1}}</p>
+<p>{{foundAdd.image2}}</p>
+<p>{{foundAdd.image3}}</p>
 
 <a href="/forrental/moreimage">Photo gallery:</a>
 <br><br><br>
 
 
 <h3>Media links:</h3>
-<a href="{{link1}}">{{link1}}</a><br>
-<a href="{{link2}}">{{link2}}</a>
+<a href="{{foundAdd.link1}}">{{foundAdd.link1}}</a><br>
+<a href="{{foundAdd.link2}}">{{foundAdd.link2}}</a>
 <br><br><br>
 
 
 
 <h3>Location on a map:</h3>
-<p>Address: {{address}}</p>
+<p>Address: {{foundAdd.address}}</p>
 
 
-{{/each}}
 
 
 

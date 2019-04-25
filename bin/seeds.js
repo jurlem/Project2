@@ -22,6 +22,7 @@ let users = [
   {
     username: "alice",
     password: bcrypt.hashSync("alice", bcrypt.genSaltSync(bcryptSalt)),
+    role: "RENTER"
   },
   {
     username: "bob",

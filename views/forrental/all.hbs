@@ -1,0 +1,24 @@
+
+<br><br>
+<h1>Edit existing add</h1>
+
+
+
+
+
+
+
+
+{{#each all}}
+<h2>{{headline}}</h2>
+<p>{{shortText}}</p>
+<a href="/forrental/view?id={{_id}}">See full add</a><br>
+<a href="/forrental/edit?id={{_id}}">Edit this add</a><br>
+<br>
+<a href="/forrental/delete?id={{_id}}">Delete this add</a>
+
+{{/each}}
+
+
+
+

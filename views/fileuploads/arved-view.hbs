@@ -8,11 +8,15 @@
 * incoive 2018-03 <br>
 
 <br>
+{{#each invoices}}
+<a href="/manage/arved/{{_id}}">{{name}}</a> <br>
+{{/each }}
+
 <br>
 
 <section>
   <h3>Upload new incoices here:</h3>
-  <form action="/fileuploads/arved-view" method="post" enctype="multipart/form-data">
+  <form action="/manage/arved" method="post" enctype="multipart/form-data">
     <input type="text" name="name">
     <input type="file" name="arved">
     <input type="submit" value="Upload invoice">
