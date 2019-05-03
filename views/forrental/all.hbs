@@ -1,24 +1,16 @@
 
 <br><br>
-<h1>Edit existing add</h1>
-
-
-
-
-
-
-
+<h1>Edit existing ad</h1>
 
 {{#each all}}
 <h2>{{headline}}</h2>
 <p>{{shortText}}</p>
-<a href="/forrental/view?id={{_id}}">See full add</a><br>
-<a href="/forrental/edit?id={{_id}}">Edit this add</a><br>
+<a href="/forrental/view?id={{_id}}">See full ad</a><br>
+<a href="/forrental/edit?id={{_id}}">Edit this ad</a><br>
 <a href="/manage/documents?id={{_id}}">Manage docs and invoices</a>
 <br>
 <br>
 
-<a href="/forrental/delete?id={{_id}}">Delete this add</a>
 <br>
 
 {{/each}}

@@ -10,6 +10,7 @@ const rentalSchema = new Schema({
   lng: String,
   link1:    String,
   link2:    String,
+  contact: String
 }, 
 {
   timestamps: {

@@ -21,16 +21,28 @@
   <h2>Please enter exact address of the property: </h2>
   <label for="address">Address: </label>
   <input type="text" name="address" value="{{address}}" id="address">
+    <h2>Latitude:</h2>
+        <input type="text" name="lat" value="{{lat}}" id="lat">
+
+    <h2>Longitude</h2>
+            <input type="text" name="lng" value="{{lng}}" id="lng">
+
+
 
   <h2>Please enter media links here:</h2>
 <br>
-
   <label for="link1">Link1: </label>
   <input type="text" name="link1" value="{{link1}}" id="link1">
 <br>
 <br>
   <label for="link2">Link2: </label>
   <input type="text" name="link2" value="{{link2}}" id="link2">
+
+<h2>Please enter contact details:</h2>
+  <input type="text" name="contact" value="{{contact}}" id="contact">
+
+
+
 
 
 
@@ -45,4 +57,8 @@
 
   <button type="submit">Send and update</button>
 
+
 </form> 
+<br>
+Or delete this ad: <br>
+<a href="/forrental/delete?id={{_id}}">Delete</a>

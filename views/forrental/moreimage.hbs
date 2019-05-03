@@ -3,13 +3,13 @@
 <br>
 <h2>And the photo gallery:</h2>
 
-{{#each theRentalAdd}}
-<img src={{this.path}}>
+{{#each pics}}
 
+<img src={{this.path}} height="500vh">
 
 <br>
 
 
-<a href="/forrental/view?id={{theRentalAdd._id}}">Back to the add page</a>
 {{/each}}
+<a href="/forrental/view?id={{foundAdd._id}}">Back to the add page</a>
 

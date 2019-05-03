@@ -174,14 +174,33 @@ router.get('/moretext', (req, res, next) => {
 })
 
 //morePics page
-router.get('/moreimage', (req, res, next) => {
-  Pics.findOne({rentalId:req.query.id, frontpage:false},  req.body )
-  .then(theRentalAdd => {
-    res.render('forrental/moreimage', { add:theRentalAdd, username: req.user.username })
-  })
-  .catch(err => {
-    console.log(err)
-  })
+// router.get('/moreimage', (req, res, next) => {
+//   console.log('mis siin on :', {})
+//   Pics.findById({_id:req.query.id}, req.body)
+//   .then(pics => {
+//     console.log('KAS siinon kõik sama rentalIDga pildid:', pics)
+//     res.render('forrental/moreimage', { pics:pics })
+//   })
+//   .catch(err => {
+//     console.log(err)
+//   })
+// })
+
+router.get('/moreimage', (req, res) => { 
+  Rental.findOne( {_id: req.query.id} )
+   .then(foundAdd => {
+    return Pics.find({rentalId: req.query.id, frontPage: true})
+      .then( pics => {
+        //foundAdd = foundAdd
+        console.log('CONSOLE LOGGING PICS', pics)
+        console.log('console logging the foundADD ', foundAdd)
+    
+        res.render('forrental/moreimage', {foundAdd, pics})
+       })
+   })
+   .catch(err => {
+     console.log(err)
+   })
 })
 
 

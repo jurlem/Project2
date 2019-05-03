@@ -1,6 +1,6 @@
-<p>GOOD JOB!! This is the final page where everything comes together</p>
 
-
+<br>
+<br>
 <h1>{{foundAdd.headline}}</h1>
 <br>
 
@@ -9,26 +9,21 @@
 
 <br><br><br>
 
-
-
-<h2>Images:</h2>
-
+<h3>Images:</h3>
 {{#each pics}}
-<img src={{this.path}}>
+<img src={{this.path}} width="500" >
 {{/each }}
 
-
-
-<a href="/forrental/moreimage?id={{foundAdd._id}} ">Photo gallery:</a>
+<a href="/forrental/moreimage?id={{foundAdd._id}} ">Photo gallery</a>
 <br><br><br>
-
 
 <h3>Media links:</h3>
     <a href="https://{{foundAdd.link1}}">{{foundAdd.link1}}</a><br>
     <a href="https://{{foundAdd.link2}}">{{foundAdd.link2}}</a>
 <br><br><br>
 
-
+<h3>Contact info:</h3>
+<p>{{foundAdd.contact}}</p><br>
 
 <h3>Location on a map:</h3>
 <p>Address: {{foundAdd.address}}</p>
