@@ -33,7 +33,7 @@ router.post("/signup", (req, res, next) => {
   const password = req.body.password;
   
   if (username === "" || password === "") {
-    res.render("auth/signup", { message: "Indicate username and password" });
+    res.render("auth/signup", { message: "Indicate username and password", username: req.user.username });
     return;
   }
 
@@ -56,7 +56,7 @@ router.post("/signup", (req, res, next) => {
       res.redirect("/");
     })
     .catch(err => {
-      res.render("auth/signup", { message: "Something went wrong" });
+      res.render("auth/signup", { message: "Something went wrong", username: req.user.username });
     })
   });
 });

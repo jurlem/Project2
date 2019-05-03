@@ -92,13 +92,13 @@ const adminRoutes = require('./routes/manage');
 app.use('/manage', checkRoles('ADMIN'), adminRoutes);
 
 const renterRoutes = require('./routes/renter');
-app.use('/renter', checkRoles('RENTER'), checkRoles('ADMIN'), renterRoutes);
+app.use('/renter', checkRoles('RENTER'), renterRoutes);
 
 //commented out as is not used at the moment:
 // const rentingRoutes = require('./routes/jahu');
 // app.use('/jahu', rentingRoutes);
 
 const forRent = require('./routes/forrental');
-app.use('/forrental', forRent);
+app.use('/forrental', checkRoles('ADMIN'), forRent);
 
 module.exports = app;

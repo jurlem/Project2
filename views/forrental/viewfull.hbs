@@ -1,33 +1,42 @@
 <p>GOOD JOB!! This is the final page where everything comes together</p>
 
+
 <h1>{{foundAdd.headline}}</h1>
 <br>
 
 <p>{{foundAdd.shortText}}</p>
-<a href="/forrental/moretext">Read more</a>
+<a href="/forrental/moretext?id={{foundAdd._id}}">Read more</a>
+
 <br><br><br>
 
 
 
 <h2>Images:</h2>
 
-<p>{{foundAdd.image1}}</p>
-<p>{{foundAdd.image2}}</p>
-<p>{{foundAdd.image3}}</p>
+{{#each pics}}
+<img src={{this.path}}>
+{{/each }}
 
-<a href="/forrental/moreimage">Photo gallery:</a>
+
+
+<a href="/forrental/moreimage?id={{foundAdd._id}} ">Photo gallery:</a>
 <br><br><br>
 
 
 <h3>Media links:</h3>
-<a href="{{foundAdd.link1}}">{{foundAdd.link1}}</a><br>
-<a href="{{foundAdd.link2}}">{{foundAdd.link2}}</a>
+    <a href="https://{{foundAdd.link1}}">{{foundAdd.link1}}</a><br>
+    <a href="https://{{foundAdd.link2}}">{{foundAdd.link2}}</a>
 <br><br><br>
 
 
 
 <h3>Location on a map:</h3>
 <p>Address: {{foundAdd.address}}</p>
+{{!-- Google map div --}}
+<div id="map"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=MAPSSECRET&callback=initMap"></script>
+    <script type="text/javascript" src="/javascripts/map.js"></script>
 
 
 

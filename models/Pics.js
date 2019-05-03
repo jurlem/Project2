@@ -2,8 +2,11 @@ const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
 const picsSchema = new Schema({
-  image: { type: String, required: true },
-  name: { type: String, required: true }
+  name: String,
+  path: String,
+  originalName: String,
+  rentalId: { type : Schema.Types.ObjectId, ref: 'Rental' },
+  frontPage: Boolean
 }, {
   timestamps: {
     createdAt: 'created_at',

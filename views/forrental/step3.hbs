@@ -4,7 +4,14 @@
 <form action="/forrental/step3?id={{id}}" method="post">
 <h2>Please enter exact address of the property: </h2>
   <label for="address">Address: </label>
+
   <input type="text" name="address" id="address">
+<h2>Please enter latitude and longitude of the property:</h2>
+  <label for="lat">Lattitude: </label>
+  <input type="text" name="lat" id="lat">
+ 
+  <label for="lng">Longitude: </label>
+  <input type="text" name="lng" id="lng">
 
   {{#if message }}
     <div class="error-message">{{ message }}</div>

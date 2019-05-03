@@ -1,11 +1,14 @@
 const express = require('express');
 const passport = require('passport');
-const router  = express.Router();
-const Multer  = require('multer');
+const router = express.Router();
+const Multer = require('multer');
 const ensureLogin = require("connect-ensure-login");
 const User = require("../models/User");
-const Docu = require('../models/docu');
 const Invoice = require('../models/Invoice');
+const Docu = require('../models/docu');
+const Rental = require("../models/Rental");
+
+
 
 const checkRoles = require('../models/checkRoles');
 //s3
@@ -16,11 +19,9 @@ const s3 = new aws.S3();
 const storage = new multerS3({
   s3: s3,
   bucket: 'jurlem-project2',
-
   contentDisposition: 'inline',
   contentType: multerS3.AUTO_CONTENT_TYPE,
-
-  key: function(req, file, cb) {
+  key: function (req, file, cb) {
     cb(null, Date.now() + '_' + file.originalname)
   }
 })
@@ -28,119 +29,169 @@ const storage = new multerS3({
 
 //PRIVATE Pages:
 router.get('/', (req, res) => {
-  res.render('admin-view', { user: req.user });
-}) 
+  res.render('admin-view', {
+    username: req.user.username
+  });
+})
 
 // //ADMIN tabs:
-router.get('/documents', (req, res, next) => {  
-  Docu.find({})
-    .then(documents =>{
-       console.log('documents: ', documents)
-      res.render('fileuploads/documents-view', { documents: documents });
+
+router.get('/documents', (req, res, next) => {
+  Docu.findOne({
+      rentalId: req.query.id
+    })
+    .then(result => {
+      res.render('fileuploads/documents-view', {
+        documents: result,
+      });
     })
     .catch(err => {
       console.log(err)
-    })  
+    })
 })
 
 // MULTER
-// Route to upload from project base path
-const upload = Multer({ storage: storage })
-
-
-// upload file to DB, then render page with documents
-router.post('/documents', upload.single('docu'), (req, res) => {
-// console.log(req.file)
- Docu.create({
-  name: req.body.name ,
-  path: req.file.location,
-  originalName: req.file.originalname,
-  type: "document"
+const upload = Multer({
+  storage: storage
 })
-  .then(documents => {
-    res.redirect('/manage/documents')
-  })
-  .catch(err =>{
-    console.log(err)
-  })
+
+router.post('/documents', upload.single('docu'), (req, res) => {
+  let correctId = "";
+  console.log('request query', req.query.id)
+  Rental.findByIdAndUpdate({_id: req.query.id}, req.body)
+    .then(value => {
+      correctId = value;
+      return Docu.create({
+        name: req.body.name,
+        path: req.file.location,
+        originalName: req.file.originalname,
+        rentalId: req.query.id,
+        type: "document"
+      })
+      .then(result => {
+        res.redirect(`/manage/documents?id=${correctId._id}&name=${result.name}&pdf=${result.path}`)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    })
+    .catch(err => {
+      console.log(err)
+    })
 })
 
 
 //choosing one file:
-router.get('/documents/:docId', (req, res, next)  => {
+router.get('/documents/:docId', (req, res, next) => {
 
-  Docu.findOne( { _id: req.params.docId } )
-    .then( fetchedDoc => {
-      console.log ('The fetched document: ', fetchedDoc )
-      res.render('fileuploads/more', {fetchedDoc})
+  Docu.findOne({
+      _id: req.params.docId
+    })
+    .then(fetchedDoc => {
+      console.log('The fetched document: ', fetchedDoc)
+      res.render('fileuploads/more', {
+        fetchedDoc,
+        username: req.user.username
+      })
     })
 })
 
 //DELETE ADD
 router.get('/delete', (req, res) => {
   console.log(req.query)
-  Docu.findByIdAndDelete( {_id:req.query.id} )
-  .then(deletedDocu => {
-    console.log('Im deleting this document: ', deletedDocu)
-    res.redirect('/manage/documents')
-  })
-  .catch(err => {
-    console.log(err)
-  })
-})
-
-
-//INVOICES VIEW,  CREATE new INVOICE
-router.get('/arved', (req, res, next) => {
-  Docu.find({})
-    .then(invoices => {
-      console.log('list of invoices: ', {invoices:invoices})
-      res.render('fileuploads/arved-view'), {invoices: invoices};
+  Docu.findByIdAndDelete({
+      _id: req.query.id
+    })
+    .then(deletedDocu => {
+      console.log('Im deleting this document: ', deletedDocu)
+      res.redirect('/manage/documents', {
+        username: req.user.username
+      })
     })
     .catch(err => {
       console.log(err)
     })
 })
 
-router.post('/arved', upload.single('docu'), (req, res) => {
-  // console.log(req.file)
-  Docu.create({
-    name: req.body.name , 
-    path: req.file.location ,
-    originalName: req.file.originalname,
-    type: "invoice"
-  })
-  .then(invoice => {
-    res.redirect('/manage/arved')
-  })
-  .catch(err => {
-    console.log(err)
-  })
+
+// //ARVED tabs:
+router.get('/arved', (req, res, next) => {
+  Invoice.find()
+    .then(invoices => {
+      console.log('invoices: ', invoices)
+      res.render('fileuploads/arved-view', {
+        invoices: invoices,
+        username: req.user.username
+      });
+    })
+    .catch(err => {
+      console.log(err)
+    })
 })
 
+// const upload1 = Multer({ storage: storage })
 
-// router.post('/documents', upload.single('docu'), (req, res) => {
-//   // console.log(req.file)
-//    Docu.create({
-//     name: req.body.name ,
-//     path: req.file.location,
-//     originalName: req.file.originalname
+
+// // upload file to DB, then render page with documents
+// router.post('/arved', upload1.single('invoice'), (req, res) => {
+// // console.log(req.file)
+//  Invoice.create({
+//   name: req.body.name ,
+//   path: req.file.location,
+//   originalName: req.file.originalname,
+//   type: "invoice"
+// })
+//   .then(invoices => {
+//     res.redirect('/manage/arved', {username: req.user.username})
 //   })
-//     .then(documents => {
-//       res.redirect('/manage/documents')
+//   .catch(err =>{
+//     console.log(err)
+//   })
+// })
+
+
+//*********
+
+//Comment out to see if there was a typo:
+//INVOICES VIEW,  CREATE new INVOICE
+// router.get('/arved', (req, res, next) => {
+//   Docu.find({})
+//     .then(invoices => {
+//       console.log('list of invoices: ', {invoices:invoices})
+//       res.render('fileuploads/arved-view'), {invoices: invoices};
 //     })
-//     .catch(err =>{
+//     .catch(err => {
 //       console.log(err)
 //     })
+// })
+
+// router.post('/arved', upload.single('docu'), (req, res) => {
+//   // console.log(req.file)
+//   Docu.create({
+//     name: req.body.name , 
+//     path: req.file.location ,
+//     originalName: req.file.originalname,
+//     type: "invoice"
 //   })
+//   .then(invoice => {
+//     res.redirect('/manage/arved')
+//   })
+//   .catch(err => {
+//     console.log(err)
+//   })
+// })
 
 
 
 router.get('/createuser', (req, res, next) => {
-  res.redirect('auth/signup', { user: req.user });
+  res.redirect('auth/signup', {
+    username: req.user.username
+  });
 })
 router.get('/manageAdd', (req, res, next) => {
-  res.render('manageAdd-view', { user: req.user });
+  res.render('manageAdd-view', {
+    username: req.user.username
+  });
 })
 
 module.exports = router;

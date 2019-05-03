@@ -9,8 +9,8 @@
 </head>
 <body>
 
-{{#if logged}}
-    You are logged in as {{role}}
+{{#if username}}
+<p>Logged in as: {{username}}</p>
 {{/if}}
 
   <nav>
@@ -27,6 +27,7 @@
 
   {{{body}}}
 
-  <script src="/javascripts/script.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfMMFTS6hSNuL174IkbVj6nVZJeamVaPU&callback=initMap"
+  type="text/javascript"></script>
 </body>
 </html>

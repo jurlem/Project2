@@ -6,7 +6,9 @@ const docuSchema = new Schema({
   name: String,
   path: String,
   originalName: String,
-  type: String
+  type: String,
+  rentalId: { type : Schema.Types.ObjectId, ref: 'Rental' }
+
 }, {
   timestamps: { 
     createdAt: "created_at", 
