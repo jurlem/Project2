@@ -8,19 +8,21 @@ Uploaded files:
 
 <br>
 <br>
+
 <br>
 
-{{#each documents}}
-  <a href="/manage/documents/{{rentalId}}" target= "_blank">{{originalName}}</a> <br>
+{{#each foundDocs}}
+  <a href="{{this.path}}">{{this.name}}test</a> <br>
 {{/each }}
 
-
+{{#if foundAdd}}
 <section>
   <h3>Upload new documents here: </h3>
   {{!-- This is a front end in the client browser i.e the path in browser --}}
-  <form action="/manage/documents?id={{id}}" method="post" enctype="multipart/form-data">
+  <form action="/forrental/documents?id={{foundAdd.id}}" method="post" enctype="multipart/form-data">
     <input type="text" name="name">
-    <input type="file" name="docu">
+    <input type="file" name="Testdocu">
     <input type="submit" value="Upload document">
   </form>
 </section>
+{{/if }}

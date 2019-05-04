@@ -31,9 +31,20 @@
 <div id="map"></div>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=MAPSSECRET&callback=initMap"></script>
-    <script type="text/javascript" src="/javascripts/map.js"></script>
+    {{!-- <script type="text/javascript" src="/javascripts/map.js"></script> --}}
 
+<script>
+    function initMap() {
+    // Jahu center: 59.4468217, 24.7385231
+    var myLatLng = { lat: {{foundAdd.lat}}, lng: {{foundAdd.lng}} };
 
+    // The map, centered at jahu
+    var map = new google.maps.Map(
+        document.getElementById('map'), {zoom: 12, center: myLatLng});
+    // The marker, positioned at Jahu
+    var marker = new google.maps.Marker({position: myLatLng, map: map});
+    }
+</script>
 
 
 

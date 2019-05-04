@@ -7,9 +7,6 @@ const User = require("../models/User");
 const Invoice = require('../models/Invoice');
 const Docu = require('../models/docu');
 const Rental = require("../models/Rental");
-
-
-
 const checkRoles = require('../models/checkRoles');
 //s3
 const multerS3 = require('multer-s3');
@@ -37,13 +34,10 @@ router.get('/', (req, res) => {
 // //ADMIN tabs:
 
 router.get('/documents', (req, res, next) => {
-  Docu.findOne({
-      rentalId: req.query.id
-    })
+  Docu.findOne({ rentalId: req.query.id })
     .then(result => {
-      res.render('fileuploads/documents-view', {
-        documents: result,
-      });
+      console.log(result)
+      res.render('fileuploads/documents-view', {id: req.query.id});
     })
     .catch(err => {
       console.log(err)
@@ -51,30 +45,29 @@ router.get('/documents', (req, res, next) => {
 })
 
 // MULTER
-const upload = Multer({
-  storage: storage
-})
+const upload2 = Multer({ storage: storage })
 
-router.post('/documents', upload.single('docu'), (req, res) => {
+router.post('/documents', upload2.single('docu'), (req, res, next) => {
+  console.log('console logging ', req.file)
   let correctId = "";
-  console.log('request query', req.query.id)
   Rental.findByIdAndUpdate({_id: req.query.id}, req.body)
     .then(value => {
       correctId = value;
+      console.log('consoleLOGGING VALUE', correctId)
       return Docu.create({
         name: req.body.name,
         path: req.file.location,
         originalName: req.file.originalname,
-        rentalId: req.query.id,
-        type: "document"
+        rentalId: req.query.id
       })
-      .then(result => {
-        res.redirect(`/manage/documents?id=${correctId._id}&name=${result.name}&pdf=${result.path}`)
+    })
+    .then(() => {
+      console.log('consoleLOGGING RESULT ', correctId)
+        res.redirect(`/forrental/documents?id=${correctId._id}`)
       })
       .catch(err => {
         console.log(err)
       })
-    })
     .catch(err => {
       console.log(err)
     })
